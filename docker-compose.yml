@@ -1,0 +1,33 @@
+version: "3.9" # Versión de Compose
+
+services: # Servicios del stack
+  db: # Servicio de base de datos
+    image: postgres:16-alpine # Imagen de PostgreSQL
+    container_name: story_db # Nombre del contenedor
+    environment: # Variables de entorno
+      POSTGRES_DB: story # Nombre de la base
+      POSTGRES_USER: story_user # Usuario
+      POSTGRES_PASSWORD: story_pass # Contraseña
+    ports: # Puertos expuestos
+      - "5432:5432" # Host:Contenedor
+    volumes: # Volúmenes montados
+      - story_pgdata:/var/lib/postgresql/data # Datos persistentes
+      - ./data/sql/story_postgres.sql:/docker-entrypoint-initdb.d/01_story.sql # SQL inicial
+    healthcheck: # Chequeo de salud
+      test: ["CMD-SHELL", "pg_isready -U story_user -d story"] # Comando de salud
+      interval: 5s # Intervalo
+      timeout: 5s # Tiempo de espera
+      retries: 10 # Reintentos
+
+  tests: # Servicio para ejecutar pytest
+    build: . # Construye desde Dockerfile
+    container_name: story_tests # Nombre del contenedor
+    depends_on: # Dependencia de servicios
+      db: # Espera DB
+        condition: service_healthy # Solo cuando está sana
+    environment: # Variables de entorno
+      DATABASE_URL: postgresql+psycopg2://story_user:story_pass@db:5432/story # URL de conexión
+    command: ["pytest", "-q"] # Comando de tests
+
+volumes: # Volúmenes declarados
+  story_pgdata: {} # Volumen para PostgreSQL

@@ -1,0 +1,29 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+  
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+
+      - name: Run Tests
+        run: |
+          pytest tests/test_products.py -q
+  
