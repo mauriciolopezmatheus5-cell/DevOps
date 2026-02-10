@@ -1,0 +1,14 @@
+# fastapi: framework web para construir la API
+fastapi==0.110.0
+# uvicorn: servidor ASGI para ejecutar FastAPI en desarrollo/producción
+uvicorn==0.27.1
+# sqlalchemy: ORM para conectar y manejar la base de datos
+sqlalchemy==2.0.29
+# pydantic: validación/serialización de datos de entrada/salida
+pydantic==2.6.3
+# pytest: framework de pruebas
+pytest==8.1.1
+# httpx: cliente HTTP usado por TestClient (dependencia de tests)
+httpx==0.27.0
+# psycopg2-binary: driver PostgreSQL para SQLAlchemy
+psycopg2-binary==2.9.9
