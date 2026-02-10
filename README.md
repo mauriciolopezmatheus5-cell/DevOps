@@ -84,3 +84,21 @@ curl -X PUT "http://127.0.0.1:8000/products/1" \
 ```
 curl -X DELETE "http://127.0.0.1:8000/products/1"
 ```
+
+-----------------
+✅ Pasos rápidos
+Activa el entorno virtual (si no está activo):
+source .env/bin/activate
+
+Instala dependencias (incluye uvicorn):
+pip install -r requirements.txt
+
+Exporta la URL de la BD (ya lo hiciste, perfecto):
+export DATABASE_URL=postgresql+psycopg2://story_user:story_pass@localhost:5432/story
+
+Inicia la API:
+python -m uvicorn app.main:app --reload
+Luego abre:
+http://127.0.0.1:8000/products
+
+
